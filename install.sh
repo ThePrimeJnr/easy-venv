@@ -24,13 +24,16 @@ fi
 # Check if 'source venv.sh' is already aliased to 'venv'
 if ! alias venv 2>/dev/null; then
   # Move 'venv.sh' to ~/usr/bin/venv
-  cp venv.sh ~/.local/bin/venv
+  if cp venv.sh ~/.local/bin/venv; then
+    # Create an alias for 'venv' command
+    export alias venv="~/.local/bin/.venv"
 
-  # Create an alias for 'venv' command
-  alias venv="source ~/.local/bin/venv"
-
-  echo "✅ Installation successful! 🚀"
-  echo "You can now use the 'venv' command to activate your virtual environments."
+    echo "✅ Installation successful! 🚀"
+    echo "You can now use the 'venv' command to activate your virtual environments."
+  else
+    echo "❌ Error: Failed to copy 'venv.sh' to /usr/bin/venv. Please check permissions or try running the script with elevated privileges (sudo)."
+    exit 1
+  fi
 else
   echo "❌ Error: 'venv' alias already exists. Please choose a different name for the alias."
   exit 1
