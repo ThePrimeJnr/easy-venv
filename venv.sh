@@ -13,36 +13,6 @@ usage() {
   echo "  deactivate - Deactivate the currently active virtual environment."
   echo "  list - List all available virtual environments."
   echo "  remove <envname> - Remove a virtual environment."
-  exit 1
-}
-
-deactivate () {
-        unset -f pydoc > /dev/null 2>&1 || true
-        if ! [ -z "${_OLD_VIRTUAL_PATH:+_}" ]
-        then
-                PATH="$_OLD_VIRTUAL_PATH" 
-                export PATH
-                unset _OLD_VIRTUAL_PATH
-        fi
-        if ! [ -z "${_OLD_VIRTUAL_PYTHONHOME+_}" ]
-        then
-                PYTHONHOME="$_OLD_VIRTUAL_PYTHONHOME" 
-                export PYTHONHOME
-                unset _OLD_VIRTUAL_PYTHONHOME
-        fi
-        hash -r 2> /dev/null
-        if ! [ -z "${_OLD_VIRTUAL_PS1+_}" ]
-        then
-                PS1="$_OLD_VIRTUAL_PS1" 
-                export PS1
-                unset _OLD_VIRTUAL_PS1
-        fi
-        unset VIRTUAL_ENV
-        unset VIRTUAL_ENV_PROMPT
-        if [ ! "${1-}" = "nondestructive" ]
-        then
-                unset -f deactivate
-        fi
 }
 
 # Check for the correct number of arguments
@@ -67,7 +37,6 @@ case "$operation" in
       virtualenv "$cwd/$VENVS_DIR/$envname"
     else
       echo "Missing virtual environment name for creation."
-      exit 1
     fi
 
     ;;
@@ -75,14 +44,13 @@ case "$operation" in
     # Activate a virtual environment
     if [ -n "$envname" ]; then
       if [ -d "$cwd/$VENVS_DIR/$envname" ]; then
-        source "./$VENVS_DIR/$envname/bin/activate"
+        source "$cwd/$VENVS_DIR/$envname/bin/activate"
       else
         echo "Virtual environment '$envname' does not exist."
-        exit 1
+        break
       fi
     else
       echo "Missing virtual environment name for activation."
-      exit 1
     fi
     ;;
   "deactivate")
@@ -97,8 +65,6 @@ case "$operation" in
     # List all available virtual environments in the current directory
     if [ -d "$cwd/$VENVS_DIR" ]; then
       ls -1 "$cwd/$VENVS_DIR/"
-    else
-      exit 1
     fi
     ;;
   "remove")
@@ -108,11 +74,9 @@ case "$operation" in
         rm -rf "$cwd/$VENVS_DIR/$envname"
       else
         echo "Virtual environment '$envname' does not exist."
-        exit 1
       fi
     else
       echo "Missing virtual environment name for removal."
-      exit 1
     fi
     ;;
   *)
