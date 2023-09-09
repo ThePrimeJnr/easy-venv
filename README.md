@@ -1,6 +1,6 @@
-# Virtual Environment Manager (VENV)
+# Easy Virtual Environment Manager (VENV)
 
-Virtual Environment Manager (VENV) is a handy command-line tool for managing Python virtual environments effortlessly. It simplifies the process of creating, activating, deactivating, listing, and removing virtual environments, all in one place.
+Easy Virtual Environment Manager (VENV) is a handy command-line tool for managing Python virtual environments effortlessly. It simplifies the process of creating, activating, deactivating, listing, and removing virtual environments, all in one place.
 
 ## Features
 
